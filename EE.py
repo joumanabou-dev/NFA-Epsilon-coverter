@@ -3,12 +3,13 @@
 #benzid oumeima group 02 security
 
 
-# ε-NFA to NFA Conversion 
+# ε-NFA to NFA Conversion
+#Symbol used for epsilon
 EPSILON = "ε"
 EPSILON_INPUTS = ["e", "eps", "epsilon", "ε"]
 
 #  Function 1
-# Check if the NFA has any ε-transitions
+# Check if the NFA contains any epsilon transitions
 
 def check_for_epsilon_transitions(nfa):
     for state in nfa["states"]:
@@ -18,7 +19,7 @@ def check_for_epsilon_transitions(nfa):
 
 
 #  Function 2
-# Find ε-closure of a single state
+# Calculate epsilon-closure of ONE state
 
 def calculate_epsilon_closure(nfa, start_state):
     closure = set()
@@ -35,7 +36,7 @@ def calculate_epsilon_closure(nfa, start_state):
 
 
 #  Function 3
-# Find ε-closure for all states
+# Calculate epsilon-closure for ALL states
 
 def calculate_all_epsilon_closures(nfa):
     closures = {}
@@ -45,7 +46,7 @@ def calculate_all_epsilon_closures(nfa):
 
 
 #  Function 4
-# Create new transitions without ε
+# Create new transitions without epsilon
 
 def calculate_new_transitions(nfa, closures):
     new_transitions = {}
@@ -62,7 +63,7 @@ def calculate_new_transitions(nfa, closures):
     return new_transitions
 
 #  Function 5
-# Find new final states
+# Find new final states after removing epsilon
 
 def determine_new_final_states(nfa, closures):
     new_finals = set()
@@ -73,12 +74,12 @@ def determine_new_final_states(nfa, closures):
                 break
     return sorted(list(new_finals))
 
-# Read NFA from the user with per-input validation
+# Read NFA from the user 
 
 def read_nfa():
     print("\nEnter NFA information\n")
 
-    # Enter and validate states
+    # Read states
     while True:
         states_input = input("States (space-separated): ").split()
         if not states_input:
@@ -104,7 +105,7 @@ def read_nfa():
             )
         break
 
-    # Enter and validate start state
+    # Enter  start state
     while True:
         start_state = input("Start state: ")
         if start_state not in states:
@@ -112,7 +113,7 @@ def read_nfa():
         else:
             break
 
-    # Enter and validate final states
+    # Enter  final states
     while True:
         final_states_input = input("Final states (space-separated): ").split()
 
@@ -149,7 +150,7 @@ def read_nfa():
     while True:
         line = input("Transition: ").strip()
 
-        # Handle empty input
+        # Handle epsilon input
         if line == "":
             print("⚠ Empty input. Type 'done' to finish or enter a transition.")
             continue
@@ -191,7 +192,7 @@ def read_nfa():
         else:
             transitions[from_state][symbol].add(to_state)
 
-    # Convert sets to sorted lists for consistency
+    # convert sets to lists
     for from_state in transitions:
         for symbol in transitions[from_state]:
             transitions[from_state][symbol] = sorted(
@@ -206,10 +207,7 @@ def read_nfa():
         "transitions": transitions,
     }
 
-
-# ----------------------------------------------------------
-# Display final NFA
-# ----------------------------------------------------------
+# Display the new NFA without epsilon
 def display_nfa(nfa, new_transitions, new_final_states):
     print("\n" + "=" * 50)
     print("NFA without ε-transitions")
@@ -261,7 +259,6 @@ def main():
 
             print("\n ε-transitions removed successfully!")
 
-        # Ask run again
         choice = input("\nDo you want to convert another NFA? (y/n): ").strip().lower()
         if choice != "y":
             print("\nExiting. Goodbye!")
@@ -270,4 +267,5 @@ def main():
 # Run Program
 if __name__ == "__main__":
     main()
+
 

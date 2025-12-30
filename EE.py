@@ -1,15 +1,15 @@
-# ==========================================================
-# ε-NFA to NFA Conversion (Student Friendly)
-# ==========================================================
+#Maya lina gadda group 02 security
+#boufroukh djemana group 01 security
+#benzid oumeima group 02 security
 
+
+# ε-NFA to NFA Conversion 
 EPSILON = "ε"
 EPSILON_INPUTS = ["e", "eps", "epsilon", "ε"]
 
-
-# ----------------------------------------------------------
-# Core Function 1
+#  Function 1
 # Check if the NFA has any ε-transitions
-# ----------------------------------------------------------
+
 def check_for_epsilon_transitions(nfa):
     for state in nfa["states"]:
         if state in nfa["transitions"] and EPSILON in nfa["transitions"][state]:
@@ -17,10 +17,9 @@ def check_for_epsilon_transitions(nfa):
     return False
 
 
-# ----------------------------------------------------------
-# Core Function 2
+#  Function 2
 # Find ε-closure of a single state
-# ----------------------------------------------------------
+
 def calculate_epsilon_closure(nfa, start_state):
     closure = set()
     stack = [start_state]
@@ -35,10 +34,9 @@ def calculate_epsilon_closure(nfa, start_state):
     return sorted(list(closure))
 
 
-# ----------------------------------------------------------
-# Core Function 3
+#  Function 3
 # Find ε-closure for all states
-# ----------------------------------------------------------
+
 def calculate_all_epsilon_closures(nfa):
     closures = {}
     for state in nfa["states"]:
@@ -46,10 +44,9 @@ def calculate_all_epsilon_closures(nfa):
     return closures
 
 
-# ----------------------------------------------------------
-# Core Function 4
+#  Function 4
 # Create new transitions without ε
-# ----------------------------------------------------------
+
 def calculate_new_transitions(nfa, closures):
     new_transitions = {}
     for state in nfa["states"]:
@@ -64,11 +61,9 @@ def calculate_new_transitions(nfa, closures):
             new_transitions[state][symbol] = sorted(list(reachable_states))
     return new_transitions
 
-
-# ----------------------------------------------------------
-# Core Function 5
+#  Function 5
 # Find new final states
-# ----------------------------------------------------------
+
 def determine_new_final_states(nfa, closures):
     new_finals = set()
     for state in nfa["states"]:
@@ -78,10 +73,8 @@ def determine_new_final_states(nfa, closures):
                 break
     return sorted(list(new_finals))
 
-
-# ----------------------------------------------------------
 # Read NFA from the user with per-input validation
-# ----------------------------------------------------------
+
 def read_nfa():
     print("\nEnter NFA information\n")
 
@@ -89,7 +82,7 @@ def read_nfa():
     while True:
         states_input = input("States (space-separated): ").split()
         if not states_input:
-            print("❌ State list cannot be empty. Try again.")
+            print(" State list cannot be empty. Try again.")
             continue
 
         states = list(dict.fromkeys(states_input))
@@ -101,7 +94,7 @@ def read_nfa():
     while True:
         symbols_input = input("Alphabet symbols (space-separated): ").split()
         if not symbols_input:
-            print("❌ Alphabet cannot be empty. Try again.")
+            print(" Alphabet cannot be empty. Try again.")
             continue
 
         symbols = list(dict.fromkeys(symbols_input))
@@ -115,7 +108,7 @@ def read_nfa():
     while True:
         start_state = input("Start state: ")
         if start_state not in states:
-            print(f"❌ Start state '{start_state}' is not in state list. Try again.")
+            print(f" Start state '{start_state}' is not in state list. Try again.")
         else:
             break
 
@@ -137,12 +130,12 @@ def read_nfa():
 
         invalid_finals = [f for f in final_states_input if f not in states]
         if invalid_finals:
-            print(f"❌ Final states {invalid_finals} are not in state list. Try again.")
+            print(f" Final states {invalid_finals} are not in state list. Try again.")
         else:
             final_states = list(dict.fromkeys(final_states_input))
             if len(final_states) < len(final_states_input):
                 print(
-                    "⚠ Duplicate final states were removed:",
+                    " Duplicate final states were removed:",
                     set(final_states_input) - set(final_states),
                 )
             break
@@ -166,7 +159,7 @@ def read_nfa():
 
         parts = line.split()
         if len(parts) != 3:
-            print("❌ Format error. Use: state symbol state")
+            print(" Format error. Use: state symbol state")
             continue
 
         from_state, symbol, to_state = parts
@@ -175,15 +168,15 @@ def read_nfa():
             symbol = EPSILON
 
         if symbol != EPSILON and symbol not in symbols:
-            print("❌ Symbol not in alphabet")
+            print(" Symbol not in alphabet")
             continue
 
         if from_state not in states:
-            print(f"❌ Unknown from-state '{from_state}'")
+            print(f" Unknown from-state '{from_state}'")
             continue
 
         if to_state not in states:
-            print(f"❌ Unknown to-state '{to_state}'")
+            print(f" Unknown to-state '{to_state}'")
             continue
 
         if from_state not in transitions:
@@ -193,7 +186,7 @@ def read_nfa():
 
         if to_state in transitions[from_state][symbol]:
             print(
-                f"⚠ Duplicate transition ignored: {from_state} --({symbol})--> {to_state}"
+                f" Duplicate transition ignored: {from_state} --({symbol})--> {to_state}"
             )
         else:
             transitions[from_state][symbol].add(to_state)
@@ -266,17 +259,15 @@ def main():
 
             display_nfa(nfa, new_transitions, new_final_states)
 
-            print("\n✔ ε-transitions removed successfully!")
+            print("\n ε-transitions removed successfully!")
 
-        # Ask user if they want to run again
+        # Ask run again
         choice = input("\nDo you want to convert another NFA? (y/n): ").strip().lower()
         if choice != "y":
             print("\nExiting. Goodbye!")
             break
 
-
-# ----------------------------------------------------------
 # Run Program
-# ----------------------------------------------------------
 if __name__ == "__main__":
     main()
+
